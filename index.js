@@ -2,7 +2,10 @@ const app = require("express")();
 const http = require("http").Server(app);
 const io = require("socket.io")(http, {
   cors: {
-    origins: ["https://chat-client-three-peach.vercel.app/"],
+    origin: "https://chat-client-three-peach.vercel.app", // Use the correct CORS origin
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
   },
 });
 
@@ -21,6 +24,7 @@ io.on("connection", (socket) => {
   });
 });
 
-http.listen(3000, () => {
-  console.log("listening on *:3000");
+const PORT = process.env.PORT || 3000; // Use the PORT from environment variables
+server.listen(PORT, () => {
+  console.log(`Listening on *:${PORT}`);
 });
